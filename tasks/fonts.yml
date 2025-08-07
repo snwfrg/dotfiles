@@ -1,0 +1,41 @@
+---
+- name: Create fonts directory
+  file:
+    path: "{{ home }}/.local/share/fonts"
+    state: directory
+    mode: '0755'
+
+- name: Check if FiraCode Nerd Font is installed
+  stat:
+    path: "{{ home }}/.local/share/fonts/FiraCodeNerdFont-Regular.ttf"
+  register: firacode_font
+
+- name: Download and install FiraCode Nerd Font
+  when: not firacode_font.stat.exists
+  block:
+    - name: Create temp directory for font download
+      tempfile:
+        state: directory
+      register: temp_font_dir
+    
+    - name: Download FiraCode Nerd Font
+      unarchive:
+        src: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.zip
+        dest: "{{ temp_font_dir.path }}"
+        remote_src: yes
+    
+    - name: Install FiraCode fonts
+      copy:
+        src: "{{ item }}"
+        dest: "{{ home }}/.local/share/fonts/"
+        mode: '0644'
+      with_fileglob:
+        - "{{ temp_font_dir.path }}/*.ttf"
+    
+    - name: Update font cache
+      command: fc-cache -fv
+    
+    - name: Clean up temp directory
+      file:
+        path: "{{ temp_font_dir.path }}"
+        state: absent

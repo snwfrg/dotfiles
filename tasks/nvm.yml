@@ -1,0 +1,23 @@
+---
+- name: Check if NVM is installed
+  stat:
+    path: "{{ home }}/.nvm/nvm.sh"
+  register: nvm_stat
+
+- name: Install NVM
+  shell: |
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/{{ nvm_version }}/install.sh | bash
+  args:
+    creates: "{{ home }}/.nvm"
+  when: not nvm_stat.stat.exists
+
+- name: Source NVM and install Node.js LTS
+  shell: |
+    export NVM_DIR="{{ home }}/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    nvm install {{ node_version }}
+    nvm use {{ node_version }}
+    nvm alias default {{ node_version }}
+  args:
+    executable: /bin/bash
+    creates: "{{ home }}/.nvm/versions/node"

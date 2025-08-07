@@ -1,0 +1,19 @@
+---
+- name: Install Zsh
+  become: yes
+  apt:
+    name: zsh
+    state: present
+
+- name: Check current default shell
+  command: grep "^{{ user }}:" /etc/passwd
+  register: current_shell
+  changed_when: false
+  check_mode: no
+
+- name: Set Zsh as default shell
+  become: yes
+  user:
+    name: "{{ user }}"
+    shell: /usr/bin/zsh
+  when: '"/usr/bin/zsh" not in current_shell.stdout'

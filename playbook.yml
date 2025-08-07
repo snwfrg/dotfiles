@@ -1,0 +1,62 @@
+---
+- name: Setup WSL Ubuntu 24 Development Environment
+  hosts: localhost
+  vars:
+    user: "{{ ansible_user_id }}"
+    home: "{{ ansible_env.HOME }}"
+    oh_my_zsh_path: "{{ home }}/.oh-my-zsh"
+    nvm_version: "v0.40.3"
+    node_version: "--lts"
+    
+  tasks:
+    - name: Update cache and upgrade packages
+      become: yes
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        upgrade: safe
+        autoclean: yes
+        autoremove: yes  
+    
+    - name: Install essential packages
+      become: yes
+      apt:
+        name:
+          - curl
+          - git
+          - wget
+          - build-essential
+          - unzip
+          - fontconfig
+        state: present
+    
+    - name: Setup Zsh
+      import_tasks: tasks/zsh.yml
+    
+    - name: Setup Oh My Zsh and plugins
+      import_tasks: tasks/oh-my-zsh.yml
+    
+    - name: Setup Fonts
+      import_tasks: tasks/fonts.yml
+    
+    - name: Setup NVM and Node.js
+      import_tasks: tasks/nvm.yml
+    
+    - name: Setup Claude Code
+      import_tasks: tasks/claude.yml
+    
+    - name: Copy .zshrc configuration
+      copy:
+        src: files/.zshrc
+        dest: "{{ home }}/.zshrc"
+        owner: "{{ user }}"
+        mode: '0644'
+        backup: yes
+    
+    - name: Copy Powerlevel10k configuration
+      copy:
+        src: files/.p10k.zsh
+        dest: "{{ home }}/.p10k.zsh"
+        owner: "{{ user }}"
+        mode: '0644'
+      when: ansible_env.TERM is defined

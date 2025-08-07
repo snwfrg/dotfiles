@@ -1,0 +1,52 @@
+---
+- name: Check if Oh My Zsh is installed
+  stat:
+    path: "{{ oh_my_zsh_path }}"
+  register: oh_my_zsh_stat
+
+- name: Install Oh My Zsh
+  shell: |
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  args:
+    creates: "{{ oh_my_zsh_path }}"
+  when: not oh_my_zsh_stat.stat.exists
+
+- name: Install Powerlevel10k theme
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "{{ oh_my_zsh_path }}/custom/themes/powerlevel10k"
+    depth: 1
+    force: yes
+    version: master
+
+- name: Install zsh-autosuggestions plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    dest: "{{ oh_my_zsh_path }}/custom/plugins/zsh-autosuggestions"
+    version: master
+
+- name: Install zsh-syntax-highlighting plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "{{ oh_my_zsh_path }}/custom/plugins/zsh-syntax-highlighting"
+    version: master
+
+- name: Install zsh-completions plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-completions
+    dest: "{{ oh_my_zsh_path }}/custom/plugins/zsh-completions"
+    version: master
+
+- name: Install fzf (fuzzy finder)
+  block:
+    - name: Clone fzf repository
+      git:
+        repo: https://github.com/junegunn/fzf.git
+        dest: "{{ home }}/.fzf"
+        depth: 1
+        version: master
+    
+    - name: Install fzf
+      shell: "{{ home }}/.fzf/install --all --no-bash --no-fish"
+      args:
+        creates: "{{ home }}/.fzf/bin/fzf"

@@ -1,0 +1,116 @@
+{
+    "$schema": "https://json.schemastore.org/claude-code-settings.json",
+    "includeCoAuthoredBy": false,
+    "permissions": {
+        "allow": [
+            "Read(*)",
+            "Edit(*)",
+            "Write(*)",
+            "MultiEdit(*)",
+            "WebSearch(*)",
+            "WebFetch(*)",
+            "Bash(ls:*)",
+            "Bash(rm:*)",
+            "Bash(find:*)",
+            "Bash(pwd:*)",
+            "Bash(cd:*)",
+            "Bash(tree:*)",
+            "Bash(mkdir:*)",
+            "Bash(touch:*)",
+            "Bash(rmdir:*)",
+            "Bash(mv:*)",
+            "Bash(cp:*)",
+            "Bash(cat:*)",
+            "Bash(head:*)",
+            "Bash(tail:*)",
+            "Bash(less:*)",
+            "Bash(grep:*)",
+            "Bash(rg:*)",
+            "Bash(sed:*)",
+            "Bash(awk:*)",
+            "Bash(sort:*)",
+            "Bash(uniq:*)",
+            "Bash(wc:*)",
+            "Bash(jq:*)",
+            "Bash(yq:*)",
+            "Bash(diff:*)",
+            "Bash(patch:*)",
+            "Bash(git:*)",
+            "Bash(mvn:*)",
+            "Bash(npm:*)",
+            "Bash(npx:*)",
+            "Bash(yarn:*)",
+            "Bash(pnpm:*)",
+            "Bash(tar:*)",
+            "Bash(zip:*)",
+            "Bash(unzip:*)",
+            "Bash(gzip:*)",
+            "Bash(gunzip:*)",
+            "Bash(curl:*)",
+            "Bash(wget:*)",
+            "Bash(docker:*)",
+            "Bash(docker-compose:*)",
+            "Bash(echo:*)",
+            "Bash(env:*)",
+            "Bash(which:*)",
+            "Bash(whoami:*)",
+            "Bash(uname:*)",
+            "Bash(test:*)",
+            "Bash(ss:*)",
+            "Bash(firebase list:*)",
+            "Bash(firebase projects:list:*)",
+            "Bash(firebase functions:list:*)",
+            "Bash(firebase functions:config:get:*)",
+            "mcp__playwright__browser_take_screenshot",
+            "mcp__playwright__browser_navigate",
+            "mcp__playwright__browser_snapshot",
+            "mcp__playwright__browser_type",
+            "mcp__playwright__browser_wait_for",
+            "mcp__playwright__browser_click",
+            "mcp__playwright__browser_console_messages",
+            "mcp__playwright__browser_evaluate",
+            "mcp__playwright__browser_navigate_back",
+            "mcp__playwright__browser_close",
+            "mcp__playwright__browser_network_requests",
+            "mcp__playwright__browser_tab_select",
+            "mcp__playwright__browser_select_option",
+            "mcp__context7__resolve-library-id",
+            "mcp__context7__get-library-docs",
+            "mcp__semgrep__get_supported_languages",
+            "mcp__semgrep__security_check",
+            "mcp__semgrep__semgrep_scan",
+            "mcp__semgrep__semgrep_scan_with_custom_rule"
+        ],
+        "deny": []
+    },
+    "enabledMcpjsonServers": [
+        "playwright",
+        "context7",
+        "semgrep"
+    ],
+    "hooks": {
+        "Notification": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "powershell.exe -c '[System.Media.SystemSounds]::Hand.Play()'"
+                    }
+                ]
+            }
+        ],
+        "Stop": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "powershell.exe -c '[System.Media.SystemSounds]::Beep.Play()'"
+                    }
+                ]
+            }
+        ]
+    },
+    "feedbackSurveyState": {
+        "lastShownTime": 1754049555436
+    }
+}
