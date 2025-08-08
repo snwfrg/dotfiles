@@ -26,23 +26,4 @@
     dest: "{{ home }}/.claude/"
     owner: "{{ user }}"
     mode: '0644'
-  when: claude_files.stat.exists
-  vars:
-    claude_files:
-      stat:
-        exists: "{{ (playbook_dir + '/files/claude') | exists }}"
-
-- name: Check for Claude files directory
-  stat:
-    path: "{{ playbook_dir }}/files/claude"
-  register: claude_files_check
-
-- name: Copy Claude configuration files if they exist
-  copy:
-    src: "{{ item }}"
-    dest: "{{ home }}/.claude/"
-    owner: "{{ user }}"
-    mode: '0644'
-  with_fileglob:
-    - "files/claude/*"
-  when: claude_files_check.stat.exists
+  ignore_errors: yes
