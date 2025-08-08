@@ -6,7 +6,6 @@
     home: "{{ ansible_env.HOME }}"
     oh_my_zsh_path: "{{ home }}/.oh-my-zsh"
     nvm_version: "v0.40.3"
-    node_version: "--lts"
     
   tasks:
     - name: Update cache and upgrade packages

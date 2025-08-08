@@ -26,4 +26,3 @@
     dest: "{{ home }}/.claude/"
     owner: "{{ user }}"
     mode: '0644'
-  ignore_errors: yes

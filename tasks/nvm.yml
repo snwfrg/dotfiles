@@ -11,13 +11,18 @@
     creates: "{{ home }}/.nvm"
   when: not nvm_stat.stat.exists
 
+- name: Check if Node.js is already installed via NVM
+  stat:
+    path: "{{ home }}/.nvm/versions/node"
+  register: node_installed
+
 - name: Source NVM and install Node.js LTS
   shell: |
     export NVM_DIR="{{ home }}/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    nvm install {{ node_version }}
-    nvm use {{ node_version }}
-    nvm alias default {{ node_version }}
+    nvm install --lts
+    nvm use --lts
+    nvm alias default 'lts/*'
   args:
     executable: /bin/bash
-    creates: "{{ home }}/.nvm/versions/node"
+  when: not node_installed.stat.exists
