@@ -107,7 +107,7 @@ if grep -qi microsoft /proc/version; then
     export EDITOR='code'
     export VISUAL='code'
 
-    export BROWSER='/mnt/c/Program Files/Google/Chrome/Application/chrome.exe'
+    export BROWSER='/mnt/c/Program\ Files/Google/Chrome/Application/chrome.exe'
 fi
 
 # Load Powerlevel10k configuration
