@@ -37,8 +37,11 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 export LANG=en_US.UTF-8
-export EDITOR='code'
-export VISUAL='code'
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export EDITOR='nano'
+export VISUAL='nano'
 
 # History settings
 HISTSIZE=10000
@@ -104,6 +107,8 @@ if grep -qi microsoft /proc/version; then
     
     # VS Code
     alias code='code.exe'
+    export EDITOR='code'
+    export VISUAL='code'
 
     export BROWSER='/mnt/c/Program Files/Google/Chrome/Application/chrome.exe'
 fi

@@ -15,7 +15,10 @@
         cache_valid_time: 3600
         upgrade: safe
         autoclean: yes
-        autoremove: yes  
+        autoremove: yes
+    
+    - name: Set locale settings
+      import_tasks: tasks/locale.yml
     
     - name: Install essential packages
       become: yes

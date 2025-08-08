@@ -1,0 +1,24 @@
+---
+- name: Install locales package
+  become: yes
+  apt:
+    name: locales
+    state: present
+
+- name: Ensure en_US.UTF-8 locale exists
+  become: yes
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set default locale
+  become: yes
+  command: update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+  changed_when: false
+
+- name: Set locale for current session
+  set_fact:
+    ansible_env:
+      LANG: "en_US.UTF-8"
+      LC_ALL: "en_US.UTF-8"
+      LC_CTYPE: "en_US.UTF-8"
