@@ -1,0 +1,36 @@
+---
+- name: Check if DotNet is installed
+  command: which dotnet
+  register: dotnet_check
+  failed_when: false
+  changed_when: false
+
+- name: Add dotnet/backports PPA
+  become: yes
+  apt_repository:
+    repo: ppa:dotnet/backports
+    state: present
+  when: dotnet_check.rc != 0
+
+- name: Update apt cache after adding DotNet repo
+  become: yes
+  apt:
+    update_cache: yes
+  when: dotnet_check.rc != 0
+
+- name: Install .NET SDK 9.0
+  become: yes
+  apt:
+    name: dotnet-sdk-9.0
+    state: present
+
+- name: Verify .NET SDK installation
+  command: dotnet --version
+  register: dotnet_version
+  ailed_when: false
+  changed_when: false
+
+- name: Display installed .NET SDK version
+  debug:
+    msg: ".NET SDK version installed: {{ dotnet_version.stdout }}"
+  when: dotnet_check.rc != 0

@@ -49,6 +49,9 @@
     
     - name: Setup Claude Code
       import_tasks: tasks/claude.yml
+
+    - name: Setup Dotnet
+      import_tasks: tasks/dotnet.yml
     
     - name: Copy .zshrc configuration
       copy:
