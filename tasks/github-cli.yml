@@ -1,0 +1,58 @@
+---
+- name: Check if GitHub CLI is installed
+  command: which gh
+  register: gh_check
+  failed_when: false
+  changed_when: false
+
+- name: Add GitHub CLI GPG key
+  become: yes
+  apt_key:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    keyring: /usr/share/keyrings/githubcli-archive-keyring.gpg
+    state: present
+  when: gh_check.rc != 0
+
+- name: Add GitHub CLI repository
+  become: yes
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+    state: present
+    filename: github-cli
+  when: gh_check.rc != 0
+
+- name: Update apt cache after adding GitHub CLI repo
+  become: yes
+  apt:
+    update_cache: yes
+  when: gh_check.rc != 0
+
+- name: Install GitHub CLI
+  become: yes
+  apt:
+    name: gh
+    state: present
+
+- name: Check GitHub CLI authentication status
+  command: gh auth status
+  register: gh_auth_status
+  failed_when: false
+  changed_when: false
+
+- name: Inform about GitHub CLI authentication
+  debug:
+    msg: |
+      GitHub CLI is installed but not authenticated.
+      To authenticate, run one of these commands:
+      
+      For GitHub.com:
+        gh auth login
+      
+      For GitHub Enterprise:
+        gh auth login --hostname your-company.github.com
+      
+      You can authenticate with:
+      - Web browser (recommended)
+      - Personal access token
+      - SSH key
+  when: gh_auth_status.rc != 0

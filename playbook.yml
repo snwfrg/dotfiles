@@ -38,6 +38,9 @@
     
     - name: Setup Fonts
       import_tasks: tasks/fonts.yml
+
+    - name: Setup GitHub CLI
+      import_tasks: tasks/github-cli.yml
     
     - name: Setup NVM and Node.js
       import_tasks: tasks/nvm.yml
